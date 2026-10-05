@@ -1,0 +1,3 @@
+{
+  "eVaultFactory": "0x839C42f16962D0504Fed9f269570E99B6A35fE76"
+}

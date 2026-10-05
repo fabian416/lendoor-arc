@@ -1,0 +1,8 @@
+{
+  "_comentario": "RELLENAR con los 5 del output de 01_Integrations en Arc. No se reusan los de Celo.",
+  "evc": "0xTODO_DEL_OUTPUT_DE_01",
+  "protocolConfig": "0xTODO_DEL_OUTPUT_DE_01",
+  "sequenceRegistry": "0xTODO_DEL_OUTPUT_DE_01",
+  "balanceTracker": "0xTODO_DEL_OUTPUT_DE_01",
+  "permit2": "0xTODO_DEL_OUTPUT_DE_01"
+}

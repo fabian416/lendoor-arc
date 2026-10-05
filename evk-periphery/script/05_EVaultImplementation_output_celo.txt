@@ -1,0 +1,13 @@
+{
+  "eVaultImplementation": "0x3528D989DaD277A43FdCCA692056888c59383361",
+  "modules": {
+    "balanceForwarder": "0xeA36B2893f92411A5C51dc63A3a64FC8037633c0",
+    "borrowing": "0xBbC4d0C6E2a8358773cFFdAA221977c93e5791d9",
+    "governance": "0x30fD62A834d3bB5dBa4f2681764fE6e8cA5D26FA",
+    "initialize": "0x6796142B2F278Ec6816fC2D2cA8484e2B66155Cf",
+    "liquidation": "0xAFdA2249f66A1a15F7e6418A8eFDfC455e8defBC",
+    "riskManagerUncollat": "0x520cacDc0E29b81AC88A2AA6Af3e3FEd1B168188",
+    "token": "0xC13535cc293Eca98637d5Eca5caa6a2C2c50D842",
+    "vault": "0x8aDD1cd36c215093C907777b63E481e94e2Fe97A"
+  }
+}

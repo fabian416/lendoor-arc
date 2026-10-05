@@ -1,0 +1,9 @@
+{
+  "oracleRouterFactory": "0xA9287853987B107969f181Cce5e25e0D09c1c116",
+  "deployRouterForOracle": false,
+  "eVaultFactory": "0x04909D4D0e2ec3C4A868E3D31b51C400B6736034",
+  "upgradable": true,
+  "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "oracle": "0x0000000000000000000000000000000000000000",
+  "unitOfAccount": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+}

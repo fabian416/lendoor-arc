@@ -1,0 +1,11 @@
+{
+  "oracleRouterFactory": "0xad322ed541efee358942bf399c1078b04939d295",
+  "oracleAdapterRegistry": "0x098862d5e5ad5ebcfa643a9d8aa2f19366c22df8",
+  "externalVaultRegistry": "0xddb5c91e0f47d96c2f087f18b7ac97513f99e61e",
+  "kinkIRMFactory": "0xf8c8391c97ffba4917fa9b10ad2aa24c0026d92c",
+  "kinkyIRMFactory": "0x68480a8a9613169947115ef8d7875932b1b0d983",
+  "adaptiveCurveIRMFactory": "0x16b33ec3b05a9cb1f44276544f44528204f5d464",
+  "irmRegistry": "0xa61418dcc7a4db66ea3b0a66d4ccb04ac181284e",
+  "governorAccessControlEmergencyFactory": "0x27e3531d7be54ab86a4deb3cebb6b56a446be109",
+  "capRiskStewardFactory": "0xbb505e53c005edf7749b191c2b1ff6b3e0cffa0e"
+}
