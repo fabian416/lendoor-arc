@@ -1,3 +1,4 @@
 {
-  "permit2": "0x0000000000000000000000000000000000000000"
+  "_comentario": "Permit2 YA esta deployado en Arc testnet en la direccion canonica (verificado 05/10: cast code da ~18 KB). NO poner 0x0: con 0x0 el script revierte con 'Permit2 not deployed yet under the specified address', porque 01_Integrations.s.sol:56-63 solo auto-despliega Permit2 cuando DEPLOYMENT_RPC_URL es http://127.0.0.1:8545.",
+  "permit2": "0x000000000022D473030F116dDEE9F6B43aC78BA3"
 }

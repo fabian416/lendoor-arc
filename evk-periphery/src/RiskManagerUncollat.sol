@@ -15,9 +15,31 @@ abstract contract RiskManagerUncollatModule is IRiskManager, LiquidityUtils {
     error E_CreditLimitExceeded();
     error E_InvalidAddress();
 
-    // Dirección por defecto del CLM (puedes hardcodearla aquí)
+    /// @dev El CLM vive en un slot FIJO, no en una variable declarada.
+    ///
+    /// Este módulo se ejecuta de dos maneras sobre el MISMO storage del vault:
+    ///   - compilado dentro de EVault/Dispatch (`checkAccountStatus`, el getter y el setter), y
+    ///   - por `delegatecall` desde el EVault (`accountLiquidity`, vía `useView(MODULE_RISKMANAGER)`).
+    ///
+    /// Una variable declarada acá cae en el primer slot libre de CADA contrato, y esos no
+    /// coinciden: en el módulo suelto es el 22, que en el EVault es `BorrowingModule.totalWriteOffs`;
+    /// en Dispatch/EVault es el 25. Resultado: `accountLiquidity()` leía el write-off en lugar
+    /// del CLM y revertía. Con un slot fijo los dos contextos leen el mismo lugar.
+    ///
+    /// Valor: keccak256("lendoor.evault.creditLimitManager")
+    bytes32 private constant CLM_SLOT = 0x27873fc74990e43524195687634004a774b8e650648522b7816d3e2888ce7d43;
 
-    address private _creditLimitManager;
+    function _clmSlotRead() private view returns (address clm) {
+        assembly {
+            clm := sload(CLM_SLOT)
+        }
+    }
+
+    function _clmSlotWrite(address clm) private {
+        assembly {
+            sstore(CLM_SLOT, clm)
+        }
+    }
 
     event CreditLimitManagerUpdated(address indexed oldCLM, address indexed newCLM);
 
@@ -29,7 +51,7 @@ abstract contract RiskManagerUncollatModule is IRiskManager, LiquidityUtils {
 
     // GETTER simple (sin default hardcodeado)
     function creditLimitManager() public view returns (address) {
-        return _creditLimitManager;
+        return _clmSlotRead();
     }
 
     // SETTER gobernado
@@ -40,8 +62,8 @@ abstract contract RiskManagerUncollatModule is IRiskManager, LiquidityUtils {
         onlyGov
     {
         if (clm == address(0)) revert E_InvalidAddress();
-        address old = _creditLimitManager;
-        _creditLimitManager = clm; // escribe en storage del VAULT
+        address old = _clmSlotRead();
+        _clmSlotWrite(clm); // escribe en storage del VAULT, en CLM_SLOT
         emit CreditLimitManagerUpdated(old, clm);
     }
 
