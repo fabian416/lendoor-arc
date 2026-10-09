@@ -48,3 +48,7 @@ Flujo demostrado: `deposit` 5 USDC → `setUserRisk` + `setLoanOffer` (7 días, 
 Reproducir: `scripts/arc-deploy.sh {preflight|sim01|deploy|wire|all}` desde la raíz del repo, con
 `ARC_WORKDIR` apuntando a una carpeta privada que tenga `wallets.env` (wallets descartables, fondeadas
 en `faucet.circle.com`). El script exporta el bloque anti-prod del runbook antes de firmar nada.
+
+## Página pública
+
+`https://arc.lendoor.xyz` sirve `site/index.html` (estática, desde el Caddy de staging): contratos, transacciones, flujo e hitos.
