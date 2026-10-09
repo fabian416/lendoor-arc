@@ -1,0 +1,41 @@
+{
+  "vault": "0xc90F69f03B0f50ECfFE84ded906be678111Afc0c",
+  "loanManager": "0x42C61140c0c2f0eb85f73DB66c730F48000ce1C9",
+  "loanManagerImpl": "0xfcf86fD8bb3531a2dD20Fc81a60321C85F0Fc3f6",
+  "integrations": {
+    "balanceTracker": "0xE84f66CC4Fe8A0088A0d3EC59CA780B1B273e121",
+    "evc": "0x50c3a68Ab605dfC9561DF580b3195DA6e735Ba2C",
+    "permit2": "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+    "protocolConfig": "0xfAf962f7344eeF24559877BFc7de50C69aDd540D",
+    "sequenceRegistry": "0xD8432F58B2D81e6Fc9Cf57a30940af84D850bE0f"
+  },
+  "implementation": {
+    "eVaultImplementation": "0x80E8D4444d5Cf3e7A8D54e921c552478C65e20d1",
+    "modules": {
+      "balanceForwarder": "0x9909DeB6609fFa3Ec4dD7f2c1D9dfAE265F31588",
+      "borrowing": "0xE2C892186B2bED4a5029dC62e008a177cb702FcC",
+      "governance": "0x25C42388C52551ef27712E0356D19f15399848f9",
+      "initialize": "0x847918B9eA011F25793B33b5a449bb30117423DA",
+      "liquidation": "0x617126C140779b10377E306468Ed36a5cD8a91F9",
+      "riskManagerUncollat": "0xB6C790308D2a278C379113c4d1E3D2CAB3F3EA43",
+      "token": "0xbF5caeab1d58559D38FBe8375E97167FDD29bD00",
+      "vault": "0x0cB944Dfdea52116Fd1f59AD3f78dE076ccD323a"
+    }
+  },
+  "factory": {
+    "eVaultFactory": "0x158F751c4042EA3CEEd9585827c3c3759ac8fa99"
+  },
+  "evc": "0x50c3a68Ab605dfC9561DF580b3195DA6e735Ba2C",
+  "tx_hookConfig": "0xe6e08821d95042833432d3bda994c9b9249aa9ca6b0617a62afb8b26556500dd",
+  "tx_setLoanManager": "0x70c145c038839ed2a4252ee09d10a0f6b3be4bc7d3e8e89b002b1b022dcb6ef4",
+  "tx_setCreditLimitManager": "0x67dd8fca8be13db8cabe906f272d956a6c2543fed73f30c4180d69cfd4f7bcb4",
+  "tx_setUserRisk": "0x9da66df47448c093ff801629d68071e48af7b3f240b44442ddd7390fb190088e",
+  "tx_setLoanOffer": "0x19216a56464e76ea0a4d8a9f1f50827e1817c0f1ec1b1cb51431868e647c35f4",
+  "tx_fundBorrower": "0xdd593809975c7fb1956a03917c8330b4f1fc8f71fa4f8afaa386226146437787",
+  "tx_approveDeposit": "0xcde5bf270a6feca0bb2ba1f4573de74df95f22ecf80d62e1f499cd8a94d6727b",
+  "tx_deposit": "0x50ba01ad6c48ca02c0f383dcfc0b472c1389d6db1d4232d39a39ec18e08ee39d",
+  "tx_enableController": "0xe5344f559c27667e12383715eb2f026fd19e296aa4b973b824e037e6c6cda49e",
+  "tx_borrowWithTerm": "0xcda56af9f84347171e5e8e777695380228c93bc33800f7314e3bdaca0700ba6d",
+  "tx_approveRepay": "0x8915766874f7b0238602a94deb1236144a4bee14b6c9d7406d3411834f6c7f1d",
+  "tx_repay": "0xfa623a79722718233dcc01d64c31677c7808ad59e8c3c450aa4dad4639da623f"
+}

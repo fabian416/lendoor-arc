@@ -1,8 +1,8 @@
 {
-  "_comentario": "RELLENAR con los 5 del output de 01_Integrations en Arc. No se reusan los de Celo.",
-  "evc": "0xTODO_DEL_OUTPUT_DE_01",
-  "protocolConfig": "0xTODO_DEL_OUTPUT_DE_01",
-  "sequenceRegistry": "0xTODO_DEL_OUTPUT_DE_01",
-  "balanceTracker": "0xTODO_DEL_OUTPUT_DE_01",
-  "permit2": "0xTODO_DEL_OUTPUT_DE_01"
+  "_comentario": "Output real de 01_Integrations en Arc testnet (09/10/2026)",
+  "evc": "0x50c3a68Ab605dfC9561DF580b3195DA6e735Ba2C",
+  "protocolConfig": "0xfAf962f7344eeF24559877BFc7de50C69aDd540D",
+  "sequenceRegistry": "0xD8432F58B2D81e6Fc9Cf57a30940af84D850bE0f",
+  "balanceTracker": "0xE84f66CC4Fe8A0088A0d3EC59CA780B1B273e121",
+  "permit2": "0x000000000022D473030F116dDEE9F6B43aC78BA3"
 }

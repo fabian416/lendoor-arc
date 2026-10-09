@@ -1,8 +1,8 @@
 {
-  "_comentario": "asset y unitOfAccount = USDC de Arc. 6 decimales en la interfaz ERC-20; el saldo NATIVO del mismo token usa 18 y comparten saldo.",
+  "_comentario": "asset y unitOfAccount = USDC nativo de Arc (6 dp en la interfaz ERC-20)",
   "oracleRouterFactory": "0x0000000000000000000000000000000000000000",
   "deployRouterForOracle": false,
-  "eVaultFactory": "0xTODO_DEL_OUTPUT_DE_06",
+  "eVaultFactory": "0x158F751c4042EA3CEEd9585827c3c3759ac8fa99",
   "upgradable": true,
   "asset": "0x3600000000000000000000000000000000000000",
   "oracle": "0x0000000000000000000000000000000000000000",
