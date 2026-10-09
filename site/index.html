@@ -43,7 +43,7 @@ footer{margin-top:40px;color:var(--muted);font-size:14px;border-top:1px solid va
   <div class="kicker">Arc Acceleration Season · Entregable 1</div>
   <h1>Lendoor en Arc</h1>
   <p class="lead">Crédito de consumo sin colateral en USDC, corriendo en Arc testnet. El mismo stack que presta en Celo dentro de Lemon, redeployado en la cadena de Circle: un vault ERC-4626, un módulo de riesgo sin colateral y un gestor de préstamos.</p>
-  <p><span class="pill">Arc testnet · chain 5042002</span> <span class="pill">9 de octubre de 2026</span> <span class="pill">12 transacciones, todas exitosas</span></p>
+  <p><span class="pill">Arc testnet · chain 5042002</span> <span class="pill">9 de octubre de 2026</span> <span class="pill">14 transacciones, todas exitosas</span></p>
 </header>
 
 <section>
@@ -89,7 +89,7 @@ footer{margin-top:40px;color:var(--muted);font-size:14px;border-top:1px solid va
     <figcaption>El fondeador deposita en el vault. Lendoor fija línea y oferta en LoanManagerV3. El deudor habilita el vault como controller en la EVC, pide con borrowWithTerm y repaga el monto exacto; el interés entra al vault como caja. Sin IRM: el interés lo cobra LoanManagerV3 al repagar.</figcaption>
   </figure>
   <div class="grid">
-    <div class="stat"><b>5,016 USDC</b><span>totalAssets del vault al cierre (5 de depósito + 0,016 de interés)</span></div>
+    <div class="stat"><b>13,016 USDC</b><span>totalAssets del vault hoy: 13 USDC de depósitos + 0,016 de interés cobrado</span></div>
     <div class="stat"><b>0</b><span>deuda del deudor después del repago</span></div>
     <div class="stat"><b class="ok">OK</b><span>accountLiquidity responde: la lectura de riesgo es legible para terceros</span></div>
   </div>
@@ -122,6 +122,7 @@ footer{margin-top:40px;color:var(--muted);font-size:14px;border-top:1px solid va
     <tr><td>7</td><td>El deudor habilita el vault como controller (EVC)</td><td><a href="https://explorer.testnet.arc.io/tx/0xe5344f559c27667e12383715eb2f026fd19e296aa4b973b824e037e6c6cda49e"><code>0xe534…a49e</code></a></td></tr>
     <tr><td>8</td><td>El deudor pide 1 USDC a 7 días (borrowWithTerm)</td><td><a href="https://explorer.testnet.arc.io/tx/0xcda56af9f84347171e5e8e777695380228c93bc33800f7314e3bdaca0700ba6d"><code>0xcda5…ba6d</code></a></td></tr>
     <tr><td>9</td><td>El deudor repaga 1,016 USDC (repay)</td><td><a href="https://explorer.testnet.arc.io/tx/0xfa623a79722718233dcc01d64c31677c7808ad59e8c3c450aa4dad4639da623f"><code>0xfa62…623f</code></a></td></tr>
+    <tr><td>10</td><td>Segundo depósito del fondeador, 8 USDC (deposit)</td><td><a href="https://explorer.testnet.arc.io/tx/0xa81f0ae239b806d52e8d82774dc663c9e44dae5ac11f271792ac866f37d12109"><code>0xa81f…2109</code></a></td></tr>
   </table></div>
   <p>Los tres approve y la transferencia de gas al deudor están en el historial de las dos wallets. Todo por scripts de Foundry, sin backend.</p>
 </section>
