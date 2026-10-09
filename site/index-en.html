@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lendoor on Arc</title>
+<meta name="description" content="Unsecured consumer credit in USDC, deployed on Arc Testnet. Deliverable 1 of the Arc Acceleration Season.">
+<style>
+:root{--bg:#f7f8fa;--card:#ffffff;--ink:#14171f;--muted:#5b6472;--line:#dfe3ea;--accent:#2563eb;--accent-soft:#e8efff;--ok:#15803d;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1218;--card:#161a22;--ink:#eef1f5;--muted:#9aa4b2;--line:#2a3140;--accent:#60a5fa;--accent-soft:#1b2a44;--ok:#4ade80}}
+:root[data-theme="dark"]{--bg:#0f1218;--card:#161a22;--ink:#eef1f5;--muted:#9aa4b2;--line:#2a3140;--accent:#60a5fa;--accent-soft:#1b2a44;--ok:#4ade80}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+main{max-width:920px;margin:0 auto;padding:40px 16px 64px}
+header{margin-bottom:28px}
+.kicker{color:var(--accent);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:13px}
+h1{font-size:34px;line-height:1.15;margin:6px 0 10px}
+.lead{font-size:18px;color:var(--muted);max-width:720px}
+h2{font-size:21px;margin:36px 0 10px}
+p{margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat b{display:block;font-size:24px}
+.stat span{color:var(--muted);font-size:14px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15px}
+th,td{padding:10px 12px;text-align:left;border-top:1px solid var(--line);vertical-align:top}
+th{background:var(--accent-soft);border-top:0;font-weight:600}
+code{font-family:var(--mono);font-size:13px;word-break:break-all}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.ok{color:var(--ok);font-weight:600}
+.wrap{overflow-x:auto}
+figure{margin:14px 0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{color:var(--muted);font-size:14px;margin-top:6px}
+ol li,ul li{margin:6px 0}
+footer{margin-top:40px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:14px}
+.pill{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:2px 10px;font-size:13px;font-weight:600}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Arc Acceleration Season · Deliverable 1</div>
+  <h1>Lendoor on Arc</h1>
+  <p class="lead">Unsecured consumer credit in USDC, running on Arc Testnet. The same stack that lends on Celo inside the Lemon wallet, redeployed on Circle's chain: an ERC-4626 vault, an uncollateralized risk module and a loan manager.</p>
+  <p><span class="pill">Arc testnet · chain 5042002</span> <span class="pill">October 9, 2026</span> <span class="pill">14 transactions, all successful</span></p>
+</header>
+
+<section>
+  <h2>What Lendoor is</h2>
+  <p>Lendoor lends USDC with no collateral to consumers in Argentina and Peru, inside the Lemon wallet, on Celo. More than 4,500 loans since December 2025, with tickets from 1 to 75 USDC that climb one step with every on-time repayment.</p>
+  <p>Risk is decided in two layers: an admission step with identity, on-chain wallet signals and in-app behavior, and then the repayment history. Counting on-time payments predicts default far better than any admission score. What we brought to Arc is exactly that contract stack.</p>
+</section>
+
+<section>
+  <h2>What runs on-chain</h2>
+  <figure>
+    <svg viewBox="0 0 760 300" role="img" aria-label="The vault lends, LoanManagerV3 decides, Lendoor only sets risk and offer" font-size="13" font-family="inherit">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8a94a6"/></marker></defs>
+      <text x="24" y="30" font-size="15" font-weight="600" fill="currentColor">The vault lends, LoanManagerV3 decides, Lendoor only sets risk and offer</text>
+      <g fill="none" stroke="#8a94a6" stroke-width="1.25">
+        <path d="M185 120H265" marker-end="url(#arr)"/>
+        <path d="M575 110H495" marker-end="url(#arr)"/>
+        <path d="M575 130H495" marker-end="url(#arr)"/>
+        <path d="M380 148V222" marker-end="url(#arr)"/>
+        <path d="M185 250H265" marker-end="url(#arr)"/>
+      </g>
+      <rect x="35" y="92" width="150" height="56" rx="8" fill="none" stroke="#8a94a6" stroke-width="1.25"/>
+      <text x="110" y="116" text-anchor="middle" font-weight="600" fill="currentColor">Funder</text>
+      <text x="110" y="134" text-anchor="middle" font-size="11.5" fill="#8a94a6">receives 4626 shares</text>
+      <rect x="265" y="92" width="230" height="56" rx="8" fill="#2563eb" fill-opacity="0.12" stroke="#2563eb" stroke-width="2"/>
+      <text x="380" y="116" text-anchor="middle" font-weight="600" fill="currentColor">EVault ERC-4626 vault</text>
+      <text x="380" y="134" text-anchor="middle" font-size="11.5" fill="#8a94a6">asset and gas: native USDC on Arc</text>
+      <rect x="575" y="92" width="150" height="56" rx="8" fill="none" stroke="#8a94a6" stroke-width="1.25"/>
+      <text x="650" y="116" text-anchor="middle" font-weight="600" fill="currentColor">Borrower</text>
+      <text x="650" y="134" text-anchor="middle" font-size="11.5" fill="#8a94a6">borrows and repays</text>
+      <rect x="265" y="222" width="230" height="56" rx="8" fill="none" stroke="#8a94a6" stroke-width="1.25"/>
+      <text x="380" y="246" text-anchor="middle" font-weight="600" fill="currentColor">LoanManagerV3</text>
+      <text x="380" y="264" text-anchor="middle" font-size="11.5" fill="#8a94a6">offer, term, fee and default</text>
+      <rect x="35" y="222" width="150" height="56" rx="8" fill="none" stroke="#8a94a6" stroke-width="1.25"/>
+      <text x="110" y="246" text-anchor="middle" font-weight="600" fill="currentColor">Lendoor</text>
+      <text x="110" y="264" text-anchor="middle" font-size="11.5" fill="#8a94a6">risk, off-chain</text>
+      <text x="225" y="84" text-anchor="middle" font-size="11.5" fill="#8a94a6">deposit 5 USDC</text>
+      <text x="535" y="84" text-anchor="middle" font-size="11.5" fill="#8a94a6">borrowWithTerm 1 USDC</text>
+      <text x="535" y="162" text-anchor="middle" font-size="11.5" fill="#8a94a6">repay 1,016 USDC</text>
+      <text x="388" y="189" font-size="11.5" fill="#8a94a6">validates the loan against creditLimit</text>
+      <text x="225" y="214" text-anchor="middle" font-size="11.5" fill="#8a94a6">setUserRisk, setLoanOffer</text>
+    </svg>
+    <figcaption>The funder deposits into the vault. Lendoor sets the credit line and the offer in LoanManagerV3. The borrower enables the vault as controller in the EVC, borrows with borrowWithTerm and repays the exact amount; the interest enters the vault as cash. No IRM: LoanManagerV3 charges the interest at repayment.</figcaption>
+  </figure>
+  <div class="grid">
+    <div class="stat"><b>13,016 USDC</b><span>vault totalAssets today: 13 USDC of deposits + 0.016 of collected interest</span></div>
+    <div class="stat"><b>0</b><span>borrower debt after repayment</span></div>
+    <div class="stat"><b class="ok">OK</b><span>accountLiquidity answers: risk is readable by third parties</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Contracts on Arc Testnet</h2>
+  <div class="wrap"><table>
+    <tr><th>Contract</th><th>Address</th></tr>
+    <tr><td>Vault (EVault ERC-4626, USDC)</td><td><a href="https://explorer.testnet.arc.io/address/0xc90F69f03B0f50ECfFE84ded906be678111Afc0c"><code>0xc90F69f03B0f50ECfFE84ded906be678111Afc0c</code></a></td></tr>
+    <tr><td>LoanManagerV3 (ERC-1967 proxy)</td><td><a href="https://explorer.testnet.arc.io/address/0x42C61140c0c2f0eb85f73DB66c730F48000ce1C9"><code>0x42C61140c0c2f0eb85f73DB66c730F48000ce1C9</code></a></td></tr>
+    <tr><td>LoanManagerV3 (implementation)</td><td><a href="https://explorer.testnet.arc.io/address/0xfcf86fD8bb3531a2dD20Fc81a60321C85F0Fc3f6"><code>0xfcf86fD8bb3531a2dD20Fc81a60321C85F0Fc3f6</code></a></td></tr>
+    <tr><td>EVC (Ethereum Vault Connector)</td><td><a href="https://explorer.testnet.arc.io/address/0x50c3a68Ab605dfC9561DF580b3195DA6e735Ba2C"><code>0x50c3a68Ab605dfC9561DF580b3195DA6e735Ba2C</code></a></td></tr>
+    <tr><td>EVault factory</td><td><a href="https://explorer.testnet.arc.io/address/0x158F751c4042EA3CEEd9585827c3c3759ac8fa99"><code>0x158F751c4042EA3CEEd9585827c3c3759ac8fa99</code></a></td></tr>
+    <tr><td>EVault implementation (uncollateralized module)</td><td><a href="https://explorer.testnet.arc.io/address/0x80E8D4444d5Cf3e7A8D54e921c552478C65e20d1"><code>0x80E8D4444d5Cf3e7A8D54e921c552478C65e20d1</code></a></td></tr>
+    <tr><td>Native USDC on Arc</td><td><code>0x3600000000000000000000000000000000000000</code></td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>The flow, transaction by transaction</h2>
+  <div class="wrap"><table>
+    <tr><th>#</th><th>What it does</th><th>Transaction</th></tr>
+    <tr><td>1</td><td>Enables the vault operations (setHookConfig)</td><td><a href="https://explorer.testnet.arc.io/tx/0xe6e08821d95042833432d3bda994c9b9249aa9ca6b0617a62afb8b26556500dd"><code>0xe6e0…0dd</code></a></td></tr>
+    <tr><td>2</td><td>Connects the LoanManager to the vault (setLoanManager)</td><td><a href="https://explorer.testnet.arc.io/tx/0x70c145c038839ed2a4252ee09d10a0f6b3be4bc7d3e8e89b002b1b022dcb6ef4"><code>0x70c1…6ef4</code></a></td></tr>
+    <tr><td>3</td><td>Names it credit limit manager (setCreditLimitManager)</td><td><a href="https://explorer.testnet.arc.io/tx/0x67dd8fca8be13db8cabe906f272d956a6c2543fed73f30c4180d69cfd4f7bcb4"><code>0x67dd…fcb4</code></a></td></tr>
+    <tr><td>4</td><td>5 USDC credit line for the borrower (setUserRisk)</td><td><a href="https://explorer.testnet.arc.io/tx/0x9da66df47448c093ff801629d68071e48af7b3f240b44442ddd7390fb190088e"><code>0x9da6…088e</code></a></td></tr>
+    <tr><td>5</td><td>Offer: 7 days, 160 bps (setLoanOffer)</td><td><a href="https://explorer.testnet.arc.io/tx/0x19216a56464e76ea0a4d8a9f1f50827e1817c0f1ec1b1cb51431868e647c35f4"><code>0x1921…35f4</code></a></td></tr>
+    <tr><td>6</td><td>The funder deposits 5 USDC (deposit)</td><td><a href="https://explorer.testnet.arc.io/tx/0x50ba01ad6c48ca02c0f383dcfc0b472c1389d6db1d4232d39a39ec18e08ee39d"><code>0x50ba…e39d</code></a></td></tr>
+    <tr><td>7</td><td>The borrower enables the vault as controller (EVC)</td><td><a href="https://explorer.testnet.arc.io/tx/0xe5344f559c27667e12383715eb2f026fd19e296aa4b973b824e037e6c6cda49e"><code>0xe534…a49e</code></a></td></tr>
+    <tr><td>8</td><td>The borrower takes 1 USDC for 7 days (borrowWithTerm)</td><td><a href="https://explorer.testnet.arc.io/tx/0xcda56af9f84347171e5e8e777695380228c93bc33800f7314e3bdaca0700ba6d"><code>0xcda5…ba6d</code></a></td></tr>
+    <tr><td>9</td><td>The borrower repays 1.016 USDC (repay)</td><td><a href="https://explorer.testnet.arc.io/tx/0xfa623a79722718233dcc01d64c31677c7808ad59e8c3c450aa4dad4639da623f"><code>0xfa62…623f</code></a></td></tr>
+    <tr><td>10</td><td>Second deposit by the funder, 8 USDC (deposit)</td><td><a href="https://explorer.testnet.arc.io/tx/0xa81f0ae239b806d52e8d82774dc663c9e44dae5ac11f271792ac866f37d12109"><code>0xa81f…2109</code></a></td></tr>
+  </table></div>
+  <p>The three approvals and the gas transfer to the borrower are in the history of the two wallets. Everything through Foundry scripts, no backend.</p>
+</section>
+
+<section>
+  <h2>Why Arc</h2>
+  <ul>
+    <li><b>Native USDC as asset and as gas.</b> One currency to deposit, lend, repay and pay for transactions. The borrower needs no other token.</li>
+    <li><b>Institutional capital in the currency of the loan.</b> Thousands of consumer microloans in Peru and Argentina are a long-tail asset that does not reach investors today.</li>
+    <li><b>Built-in risk protection.</b> Next is a first-loss tranche from the originator inside the vault, and the deficit recognized in the same transaction as the default.</li>
+    <li><b>Repayment in local currency.</b> StableFX with wARS and wPEN, after the program.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Program milestones</h2>
+  <div class="wrap"><table>
+    <tr><th>Milestone</th><th>Date</th><th>Success metric</th></tr>
+    <tr><td>1. Core flow on Arc Testnet</td><td>Oct 9</td><td>Transactions visible on the explorer. <span class="ok">Done.</span></td></tr>
+    <tr><td>2. Risk readable on-chain</td><td>Oct 16</td><td>AccountLens returns the correct credit line; 10 test loans opened and repaid by script</td></tr>
+    <tr><td>3. Loss layer (first-loss)</td><td>Oct 23</td><td>A default does not move the senior share price until the first-loss tranche is exhausted</td></tr>
+    <tr><td>4. Vault on Arc mainnet</td><td>Oct 30</td><td>Vault deployed and verified, share price equal to its real value</td></tr>
+    <tr><td>5. Demo Day</td><td>week of Nov 2</td><td>A real loan funded from Arc, repaid and visible end to end</td></tr>
+  </table></div>
+</section>
+
+<footer>
+  <p>Lendoor · <a href="https://lendoor.xyz">lendoor.xyz</a> · <a href="https://docs.lendoor.xyz">docs.lendoor.xyz</a> · Arc Testnet: RPC <code>https://rpc.testnet.arc.io</code>, chain id <code>5042002</code>, faucet <a href="https://faucet.circle.com">faucet.circle.com</a>.</p>
+  <p>Base contracts are Euler Vault Kit (GPL-2.0) with our own uncollateralized credit module and LoanManagerV3. Spanish version: <a href="/entregable-1">/entregable-1</a>.</p>
+</footer>
+</main>
+</body>
+</html>
