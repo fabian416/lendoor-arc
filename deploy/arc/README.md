@@ -15,8 +15,10 @@ sudo cp /opt/docker/lendoor/.env .env && sudo chmod 600 .env
 sudo cp <este repo>/deploy/arc/compose.yml compose.yml
 sudo docker network ls | grep lendoor-internal     # ajustar el nombre en compose.yml si difiere
 
-# 2) código: rama arc-app
-rm -rf ~/arc-build && git clone --branch arc-app https://github.com/fabian416/lendoor ~/arc-build && cd ~/arc-build
+# 2) código: rama arc-app (el server NO tiene auth de GitHub: se manda un tar desde la Mac)
+#    en la Mac:  cd ~/personal-repos/lendoor-arc-app && git archive --format=tar.gz -o /tmp/arc-src.tar.gz arc-app \
+#                && scp -i ~/.ssh/lendoor_keys /tmp/arc-src.tar.gz ec2-user@54.80.67.249:~/
+rm -rf ~/arc-build && mkdir ~/arc-build && tar -xzf ~/arc-src.tar.gz -C ~/arc-build && cd ~/arc-build
 
 # 3) imágenes (build nativo x86, ~3 min cada una)
 sudo docker build -t lendoor/backend:arc-local -f backend/Dockerfile .
