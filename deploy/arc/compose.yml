@@ -1,0 +1,47 @@
+# Segundo stack en el server de staging (54.80.67.249): la app de Lendoor contra Arc testnet.
+# Va en /opt/docker/lendoor-arc/compose.yml junto a su .env (ver env.arc.example).
+# Caddy sigue siendo el de /opt/docker/lendoor (comparte la red interna de staging).
+name: lendoor-arc
+services:
+  database-arc:
+    image: postgres:16
+    container_name: database-arc
+    restart: always
+    volumes:
+      - database_arc_data:/var/lib/postgresql/data:rw
+    networks: [arc-internal]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+  redis-arc:
+    image: redis:7-alpine
+    container_name: redis-arc
+    restart: always
+    networks: [arc-internal]
+  backend-arc:
+    image: lendoor/backend:arc-local
+    container_name: backend-arc
+    restart: always
+    ports: ["127.0.0.1:5001:5000"]
+    networks: [arc-internal, staging-internal]
+    env_file: [.env]
+    environment:
+      - HOST=0.0.0.0
+      - PORT=5000
+    depends_on: [database-arc, redis-arc]
+  frontend-arc:
+    image: lendoor/frontend:arc-local
+    container_name: frontend-arc
+    restart: always
+    ports: ["127.0.0.1:3001:3000"]
+    networks: [arc-internal, staging-internal]
+    depends_on: [backend-arc]
+volumes:
+  database_arc_data: {}
+networks:
+  arc-internal:
+    driver: bridge
+  staging-internal:
+    external: true
+    name: lendoor_lendoor-internal   # verificar con: docker network ls | grep lendoor-internal

@@ -1,0 +1,18 @@
+# Reemplaza el bloque arc.lendoor.xyz del Caddyfile de /opt/docker/lendoor cuando la app esté lista.
+# /api/* -> backend-arc ; /entregable-1 -> la página estática ; el resto -> la app.
+arc.lendoor.xyz {
+    handle_path /api/* {
+        reverse_proxy backend-arc:5000
+    }
+    handle /entregable-1* {
+        root * /srv/arc
+        rewrite * /index.html
+        file_server
+    }
+    handle {
+        reverse_proxy frontend-arc:3000 {
+            header_down Cache-Control "no-store"
+            header_up Host "localhost"
+        }
+    }
+}
