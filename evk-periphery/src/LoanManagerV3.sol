@@ -116,6 +116,17 @@ contract LoanManagerV3 is
         emit VaultSet(_vault);
     }
 
+    // Arc testnet (2026-10): el minHold por tenor y el cooldown por deudor se
+    // pueden ajustar desde el owner para instancias de prueba (en prod no existe).
+    function setMinHoldDays(uint16 tenorDays, uint16 holdDays) external onlyOwner {
+        minHoldDaysByTenor[tenorDays] = holdDays;
+    }
+
+    function setNextBorrowTime(address borrower, uint64 ts) external onlyOwner {
+        nextBorrowTime[borrower] = ts;
+        emit NextBorrowTimeSet(borrower, ts);
+    }
+
     function setDefaultGracePeriod(uint32 g) external override onlyOwner {
         defaultGracePeriod = g;
         emit DefaultGracePeriodSet(g);

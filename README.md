@@ -36,6 +36,7 @@ los registros de `forge script --broadcast` en `deployments/arc-testnet-5042002/
 |---|---|
 | EVault USDC (ERC-4626) | [`0xc90F69f03B0f50ECfFE84ded906be678111Afc0c`](https://explorer.testnet.arc.io/address/0xc90F69f03B0f50ECfFE84ded906be678111Afc0c) |
 | LoanManagerV3 (proxy ERC-1967) | [`0x42C61140c0c2f0eb85f73DB66c730F48000ce1C9`](https://explorer.testnet.arc.io/address/0x42C61140c0c2f0eb85f73DB66c730F48000ce1C9) |
+| LoanManagerV3 **v2**, el que usa el vault desde el 09/10 (minHold 0, setters de owner para pruebas) | [`0xe38594e3173c33bA78BEc2AcF3E424045D3A27d0`](https://explorer.testnet.arc.io/address/0xe38594e3173c33bA78BEc2AcF3E424045D3A27d0) |
 | EVC | `0x50c3a68Ab605dfC9561DF580b3195DA6e735Ba2C` |
 | EVaultFactory | `0x158F751c4042EA3CEEd9585827c3c3759ac8fa99` |
 | EVault implementación (módulo sin colateral) | `0x80E8D4444d5Cf3e7A8D54e921c552478C65e20d1` |

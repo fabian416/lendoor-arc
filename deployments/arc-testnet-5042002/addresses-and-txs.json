@@ -37,5 +37,8 @@
   "tx_enableController": "0xe5344f559c27667e12383715eb2f026fd19e296aa4b973b824e037e6c6cda49e",
   "tx_borrowWithTerm": "0xcda56af9f84347171e5e8e777695380228c93bc33800f7314e3bdaca0700ba6d",
   "tx_approveRepay": "0x8915766874f7b0238602a94deb1236144a4bee14b6c9d7406d3411834f6c7f1d",
-  "tx_repay": "0xfa623a79722718233dcc01d64c31677c7808ad59e8c3c450aa4dad4639da623f"
+  "tx_repay": "0xfa623a79722718233dcc01d64c31677c7808ad59e8c3c450aa4dad4639da623f",
+  "loanManagerV2": "0xe38594e3173c33bA78BEc2AcF3E424045D3A27d0",
+  "loanManagerV2Impl": "0xb2089AEd51fD9c0Eb18052529dE101555785041e",
+  "_nota_v2": "09/10/2026: LoanManagerV3 v2 con setMinHoldDays/setNextBorrowTime (owner), minHold=0 en todos los tenores; el vault apunta a v2 (setLoanManager + setCreditLimitManager). v1 (0x42C6...e1C9) queda como historial del Entregable 1."
 }
