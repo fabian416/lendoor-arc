@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
-# Entregable 1 Arc testnet (Arc Acceleration Season). Uso: arc-deploy.sh {preflight|sim01|deploy|wire|all}
+# Lendoor en Arc (Arc Acceleration Season). Uso: [ARC_NET=testnet|mainnet|fork] arc-deploy.sh {preflight|sim01|deploy|wire|flow|all}
+# mainnet exige ademas ARC_MAINNET_OK=1 (el OK explicito de Fabian) para cualquier paso que firme.
 set -euo pipefail
 export FOUNDRY_DISABLE_NIGHTLY_WARNING=1
 S=${ARC_WORKDIR:-$HOME/.lendoor-arc}   # carpeta PRIVADA con wallets.env (export DEPLOYER/DEPLOYER_KEY/BORROWER/BORROWER_KEY); nunca en el repo
 cd "$(dirname "$0")/../evk-periphery"
 source $S/wallets.env
-export ARC_RPC=https://rpc.testnet.arc.io
+# Red: testnet (default) | mainnet | fork (anvil local forkeado de mainnet, para ensayar deploy+wire sin plata)
+ARC_NET=${ARC_NET:-testnet}
+case "$ARC_NET" in
+  testnet) export ARC_RPC=https://rpc.testnet.arc.io; ARC_CHAIN=5042002; ARC_EXPLORER=https://explorer.testnet.arc.io; MIN_USDC=2500000;;
+  mainnet) export ARC_RPC=https://rpc.mainnet.arc.io; ARC_CHAIN=5042;    ARC_EXPLORER=https://explorer.arc.io;         MIN_USDC=7000000;;
+  fork)    export ARC_RPC=http://127.0.0.1:8545;      ARC_CHAIN=5042;    ARC_EXPLORER="(fork local)";                   MIN_USDC=7000000;;
+  *) echo "ARC_NET invalido: $ARC_NET (testnet|mainnet|fork)"; exit 2;;
+esac
+gate(){ [ "$ARC_NET" != mainnet ] || [ "${ARC_MAINNET_OK:-}" = "1" ] || { echo "!! mainnet: falta ARC_MAINNET_OK=1 (OK explicito de Fabian). No se firma nada."; exit 1; }; }
 export DEPLOYMENT_RPC_URL=$ARC_RPC
 export PRIVATE_KEY=$DEPLOYER_KEY
 export LOAN_MANAGER_OWNER=$DEPLOYER
@@ -13,7 +22,7 @@ export SAFE_ADDRESS=""
 export SAFE_KEY=0
 export USDC=0x3600000000000000000000000000000000000000
 export LOAN_MANAGER=""; export VAULT_BASE=""; export VAULT_NEW=""; export ME=$DEPLOYER; export OWNER=$DEPLOYER
-RES=$S/result.json; [ -f $RES ] || echo '{}' > $RES
+RES=$S/result-$ARC_NET.json; [ "$ARC_NET" = testnet ] && RES=$S/result.json; [ -f $RES ] || echo '{}' > $RES
 setres(){ tmp=$(mktemp); jq --arg k "$1" --arg v "$2" '.[$k]=$v' $RES > $tmp && mv $tmp $RES; }
 getres(){ jq -r --arg k "$1" '.[$k] // empty' $RES; }
 send(){ # send <label> <signer G|B> <to> <sig> args...
@@ -21,53 +30,56 @@ send(){ # send <label> <signer G|B> <to> <sig> args...
   local key=$DEPLOYER_KEY; [ "$who" = "B" ] && key=$BORROWER_KEY
   local out; out=$(cast send "$to" "$sig" "$@" --rpc-url $ARC_RPC --private-key $key --json)
   local h; h=$(echo "$out" | jq -r .transactionHash); local st; st=$(echo "$out" | jq -r .status)
-  echo "  [$label] tx=$h status=$st"
+  echo "  [$label] tx=$h status=$st  $ARC_EXPLORER/tx/$h"
   [ "$st" = "0x1" ] || { echo "  !! $label FALLÓ"; echo "$out"; exit 1; }
   setres "tx_$label" "$h"
 }
 preflight(){
   echo "== preflight =="
-  echo "chain-id: $(cast chain-id --rpc-url $ARC_RPC) (esperado 5042002)"
+  CID=$(cast chain-id --rpc-url $ARC_RPC); echo "red: $ARC_NET  chain-id: $CID (esperado $ARC_CHAIN)  rpc: $ARC_RPC"
+  [ "$CID" = "$ARC_CHAIN" ] || { echo "!! chain-id distinto del esperado: PARAR"; return 1; }
+  gate
   echo "DEPLOYMENT_RPC_URL=$DEPLOYMENT_RPC_URL"
   echo "deployer=$(cast wallet address --private-key $DEPLOYER_KEY) (esperado $DEPLOYER)"
   echo "borrower=$(cast wallet address --private-key $BORROWER_KEY) (esperado $BORROWER)"
   echo "usdc decimals: $(cast call $USDC 'decimals()(uint8)' --rpc-url $ARC_RPC)"
   DB=$(cast call $USDC 'balanceOf(address)(uint256)' $DEPLOYER --rpc-url $ARC_RPC | awk '{print $1}')
   echo "deployer USDC (6dp): $DB"
-  [ "$DB" -ge 2500000 ] || { echo "!! FALTA FONDEAR: $DEPLOYER necesita >= 2.5 USDC del faucet (tiene $DB)"; return 1; }
+  [ "$DB" -ge $MIN_USDC ] || { echo "!! FALTA FONDEAR: $DEPLOYER necesita >= $MIN_USDC (6dp) en $ARC_NET (tiene $DB)"; return 1; }
 }
 runscript(){ # runscript <script:contract> <broadcast 0|1>
   local bc=""; [ "$2" = "1" ] && bc="--broadcast --slow"
-  forge script "$1" --rpc-url $ARC_RPC $bc -vv 2>&1 | tee -a $S/log-forge.txt | grep -vE "^\s*$" | tail -25
+  forge script "$1" --rpc-url $ARC_RPC $bc -vv 2>&1 | tee -a $S/log-forge-${ARC_NET}.txt | grep -vE "^\s*$" | tail -25
 }
 sim01(){ echo "== simulación 01 (sin broadcast) =="; cp script/01_Integrations_input_arc.txt script/01_Integrations_input.json; runscript script/01_Integrations.s.sol:Integrations 0; }
 deploy(){
   preflight
   echo "== 01 Integrations =="; cp script/01_Integrations_input_arc.txt script/01_Integrations_input.json
   runscript script/01_Integrations.s.sol:Integrations 1
-  cat script/01_Integrations_output.json; cp script/01_Integrations_output.json $S/01_output_arc.json
+  cat script/01_Integrations_output.json; cp script/01_Integrations_output.json $S/01_output_${ARC_NET}.json
   echo "== 05 EVaultImplementationUncollat =="
   jq '{evc, protocolConfig, sequenceRegistry, balanceTracker, permit2}' script/01_Integrations_output.json > script/05_EVaultImplementation_input.json
   runscript script/05_EVaultImplementationUncollat.s.sol:EVaultImplementationUncollat 1
-  cat script/05_EVaultImplementation_output.json; cp script/05_EVaultImplementation_output.json $S/05_output_arc.json
+  cat script/05_EVaultImplementation_output.json; cp script/05_EVaultImplementation_output.json $S/05_output_${ARC_NET}.json
   echo "== 06 EVaultFactory =="
   jq '{eVaultImplementation}' script/05_EVaultImplementation_output.json > script/06_EVaultFactory_input.json
   runscript script/06_EVaultFactory.s.sol:EVaultFactory 1
-  cat script/06_EVaultFactory_output.json; cp script/06_EVaultFactory_output.json $S/06_output_arc.json
+  cat script/06_EVaultFactory_output.json; cp script/06_EVaultFactory_output.json $S/06_output_${ARC_NET}.json
   echo "== 07 EVault =="
   jq --arg f "$(jq -r .eVaultFactory script/06_EVaultFactory_output.json)" --arg u "$USDC" \
     '{oracleRouterFactory:"0x0000000000000000000000000000000000000000",deployRouterForOracle:false,eVaultFactory:$f,upgradable:true,asset:$u,oracle:"0x0000000000000000000000000000000000000000",unitOfAccount:$u}' -n > script/07_EVault_input.json
   runscript script/07_EVault.s.sol:EVaultDeployer 1
-  cat script/07_EVault_output.json; cp script/07_EVault_output.json $S/07_output_arc.json
+  cat script/07_EVault_output.json; cp script/07_EVault_output.json $S/07_output_${ARC_NET}.json
   VAULT=$(jq -r .eVault script/07_EVault_output.json); setres vault "$VAULT"
   echo "== LoanManagerV3 (impl + proxy) =="
-  LOAN_MANAGER_VAULT=$VAULT forge script script/DeployLoanManager.s.sol:DeployLoanManagerProxy --rpc-url $ARC_RPC --broadcast -vv 2>&1 | tee -a $S/log-forge.txt | grep -E "deployed at|Deployer|Owner|Vault|ONCHAIN|Error|error" || true
-  LM=$(grep -E "Proxy deployed at:" $S/log-forge.txt | tail -1 | awk '{print $NF}'); setres loanManager "$LM"
-  IMPL=$(grep -E "Implementation deployed at:" $S/log-forge.txt | tail -1 | awk '{print $NF}'); setres loanManagerImpl "$IMPL"
+  LOAN_MANAGER_VAULT=$VAULT forge script script/DeployLoanManager.s.sol:DeployLoanManagerProxy --rpc-url $ARC_RPC --broadcast -vv 2>&1 | tee -a $S/log-forge-${ARC_NET}.txt | grep -E "deployed at|Deployer|Owner|Vault|ONCHAIN|Error|error" || true
+  LM=$(grep -E "Proxy deployed at:" $S/log-forge-${ARC_NET}.txt | tail -1 | awk '{print $NF}'); setres loanManager "$LM"
+  IMPL=$(grep -E "Implementation deployed at:" $S/log-forge-${ARC_NET}.txt | tail -1 | awk '{print $NF}'); setres loanManagerImpl "$IMPL"
   echo "VAULT=$VAULT  LM=$LM"
-  jq -s '.[0] + {integrations: .[1], implementation: .[2], factory: .[3]}' $RES $S/01_output_arc.json $S/05_output_arc.json $S/06_output_arc.json > $RES.tmp && mv $RES.tmp $RES
+  jq -s '.[0] + {integrations: .[1], implementation: .[2], factory: .[3]}' $RES $S/01_output_${ARC_NET}.json $S/05_output_${ARC_NET}.json $S/06_output_${ARC_NET}.json > $RES.tmp && mv $RES.tmp $RES
 }
 wire(){
+  gate
   VAULT=$(getres vault); LM=$(getres loanManager); [ -n "$VAULT" ] && [ -n "$LM" ] || { echo "faltan vault/LM en result.json"; exit 1; }
   EVC=$(cast call $VAULT 'EVC()(address)' --rpc-url $ARC_RPC); setres evc "$EVC"
   echo "== cableado == VAULT=$VAULT LM=$LM EVC=$EVC"
@@ -78,8 +90,13 @@ wire(){
   send setUserRisk G $LM 'setUserRisk(address,uint16,bool,uint64,uint256)' $BORROWER 700 true $VU 5000000
   echo "  creditLimit(borrower)=$(cast call $LM 'creditLimit(address)(uint256)' $BORROWER --rpc-url $ARC_RPC)"
   send setLoanOffer G $LM 'setLoanOffer(address,uint16,uint16,uint64,uint256)' $BORROWER 7 160 $VU 5000000
+  echo "  wire OK. Siguiente: $0 flow (mueve USDC: fondeo del deudor, deposito 5, prestamo 1, repago 1,016)"
+}
+flow(){
+  gate
+  VAULT=$(getres vault); LM=$(getres loanManager); EVC=$(getres evc); [ -n "$VAULT" ] && [ -n "$LM" ] && [ -n "$EVC" ] || { echo "faltan vault/LM/evc en $RES (correr wire antes)"; exit 1; }
+  echo "== flujo == VAULT=$VAULT LM=$LM EVC=$EVC"
   send fundBorrower G $USDC 'transfer(address,uint256)' $BORROWER 500000
-  echo "== flujo =="
   send approveDeposit G $USDC 'approve(address,uint256)' $VAULT 5000000
   send deposit G $VAULT 'deposit(uint256,address)' 5000000 $DEPLOYER
   send enableController B $EVC 'enableController(address,address)' $BORROWER $VAULT
@@ -96,4 +113,4 @@ wire(){
   echo "  shares(deployer)=$(cast call $VAULT 'balanceOf(address)(uint256)' $DEPLOYER --rpc-url $ARC_RPC)"
   echo; echo "RESULTADO:"; cat $RES
 }
-case "${1:-}" in preflight) preflight;; sim01) sim01;; deploy) deploy;; wire) wire;; all) deploy; wire;; *) echo "uso: $0 {preflight|sim01|deploy|wire|all}"; exit 2;; esac
+case "${1:-}" in preflight) preflight;; sim01) sim01;; deploy) deploy;; wire) wire;; flow) flow;; all) deploy; wire; flow;; *) echo "uso: [ARC_NET=testnet|mainnet|fork] $0 {preflight|sim01|deploy|wire|flow|all}"; exit 2;; esac

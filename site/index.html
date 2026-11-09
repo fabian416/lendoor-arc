@@ -40,10 +40,10 @@ footer{margin-top:40px;color:var(--muted);font-size:14px;border-top:1px solid va
 <body>
 <main>
 <header>
-  <div class="kicker">Arc Acceleration Season · Entregable 1</div>
+  <div class="kicker">Arc Acceleration Season · Entregables 1 y 2</div>
   <h1>Lendoor en Arc</h1>
-  <p class="lead">Crédito de consumo sin colateral en USDC, corriendo en Arc testnet. El mismo stack que presta en Celo dentro de Lemon, redeployado en la cadena de Circle: un vault ERC-4626, un módulo de riesgo sin colateral y un gestor de préstamos.</p>
-  <p><span class="pill">Arc testnet · chain 5042002</span> <span class="pill">9 de octubre de 2026</span> <span class="pill">14 transacciones, todas exitosas</span></p>
+  <p class="lead">Crédito de consumo sin colateral en USDC, vivo en Arc mainnet desde el 9 de noviembre de 2026, después de un mes en Arc testnet. El mismo stack que presta en Celo dentro de Lemon, redeployado en la cadena de Circle: un vault ERC-4626, un módulo de riesgo sin colateral y un gestor de préstamos.</p>
+  <p><span class="pill">Arc mainnet · chain 5042</span> <span class="pill">9 de noviembre de 2026</span> <span class="pill">30 transacciones, todas exitosas</span> <span class="pill">En testnet desde el 9 de octubre</span></p>
 </header>
 
 <section>
@@ -93,6 +93,34 @@ footer{margin-top:40px;color:var(--muted);font-size:14px;border-top:1px solid va
     <div class="stat"><b>0</b><span>deuda del deudor después del repago</span></div>
     <div class="stat"><b class="ok">OK</b><span>accountLiquidity responde: la lectura de riesgo es legible para terceros</span></div>
   </div>
+</section>
+
+<section>
+  <h2>Contratos en Arc mainnet (9 de noviembre de 2026, chain 5042)</h2>
+  <p>Deliverable 2: el mismo stack, con los mismos scripts, desplegado y corrido de punta a punta en Arc mainnet. 30 transacciones, todas exitosas: 18 de deploy, 5 de cableado y 7 del flujo (depósito de 5 USDC, préstamo de 1 USDC a 7 días, repago de 1,016 USDC). Estado del vault después del flujo: <b>5,016 USDC</b> de totalAssets, deuda 0, línea de crédito 5 USDC.</p>
+  <div class="wrap"><table>
+    <tr><th>Contrato</th><th>Dirección</th></tr>
+    <tr><td>Vault (EVault ERC-4626, USDC)</td><td><a href="https://explorer.arc.io/address/0xF29C85A434Ec303789002E0710001589C313e132"><code>0xF29C85A434Ec303789002E0710001589C313e132</code></a></td></tr>
+    <tr><td>LoanManagerV3 (proxy ERC-1967)</td><td><a href="https://explorer.arc.io/address/0xa82A34E560FCdFE27988C68f877a92825D5f2D0E"><code>0xa82A34E560FCdFE27988C68f877a92825D5f2D0E</code></a></td></tr>
+    <tr><td>LoanManagerV3 (implementación)</td><td><a href="https://explorer.arc.io/address/0xD42D5A843fa60dB2eEA6dB6D645D593fCA1f6d5D"><code>0xD42D5A843fa60dB2eEA6dB6D645D593fCA1f6d5D</code></a></td></tr>
+    <tr><td>EVC (Ethereum Vault Connector)</td><td><a href="https://explorer.arc.io/address/0x4D8218092EE4D292bfC6C980f9B68A86A9C4B1b5"><code>0x4D8218092EE4D292bfC6C980f9B68A86A9C4B1b5</code></a></td></tr>
+    <tr><td>EVault factory</td><td><a href="https://explorer.arc.io/address/0xC33Ff5DF6af1Dcbd517475F4bF3f8BB1A0fA12B5"><code>0xC33Ff5DF6af1Dcbd517475F4bF3f8BB1A0fA12B5</code></a></td></tr>
+    <tr><td>EVault implementación (módulo sin colateral)</td><td><a href="https://explorer.arc.io/address/0x3B82A4702d00DA9503A2B4096B4C321433a9Ca86"><code>0x3B82A4702d00DA9503A2B4096B4C321433a9Ca86</code></a></td></tr>
+    <tr><td>USDC nativo de Arc</td><td><code>0x3600000000000000000000000000000000000000</code></td></tr>
+  </table></div>
+  <div class="wrap"><table>
+    <tr><th>#</th><th>Paso del flujo en mainnet</th><th>Transacción</th></tr>
+    <tr><td>1</td><td>Habilita las operaciones del vault (setHookConfig)</td><td><a href="https://explorer.arc.io/tx/0x8af2d2530f2334155850637f4ead7c98a356f7e2da7b04f5767dd5d6258d549e"><code>0x8af2…d549e</code></a></td></tr>
+    <tr><td>2</td><td>Conecta el LoanManager al vault (setLoanManager)</td><td><a href="https://explorer.arc.io/tx/0x50c3aa6026d707946a50daad94b22d520a4cb00676d0cb64870cb23ce06f453c"><code>0x50c3…f453c</code></a></td></tr>
+    <tr><td>3</td><td>Lo nombra gestor de límites (setCreditLimitManager)</td><td><a href="https://explorer.arc.io/tx/0x47111cbd8c20a0e9fa53263a7ce2be69fad622dcd2adb10dd7fe1d33e3ee2674"><code>0x4711…e2674</code></a></td></tr>
+    <tr><td>4</td><td>Línea de crédito de 5 USDC al deudor (setUserRisk)</td><td><a href="https://explorer.arc.io/tx/0x93ff6977fc9f66b123ca4402616d8f780d2a6ad0b83df9b3e2c2b9a842a596ee"><code>0x93ff…596ee</code></a></td></tr>
+    <tr><td>5</td><td>Oferta: 7 días, 160 bps (setLoanOffer)</td><td><a href="https://explorer.arc.io/tx/0x0dd9c0a67e4e4b2f89bb0da8011bd1f2af476352b8ddecb2f8277b30ae8341fc"><code>0x0dd9…341fc</code></a></td></tr>
+    <tr><td>6</td><td>El fondeador deposita 5 USDC (deposit)</td><td><a href="https://explorer.arc.io/tx/0xd35c10aee676c1031bacc788edd6178d74afbe10b4801b4bd91bace8b94a3820"><code>0xd35c…a3820</code></a></td></tr>
+    <tr><td>7</td><td>El deudor habilita el vault como controller (EVC)</td><td><a href="https://explorer.arc.io/tx/0xafa64026bdd7670cad32b02caf9654c097f18b6286b848c6ae8c31a08510397d"><code>0xafa6…0397d</code></a></td></tr>
+    <tr><td>8</td><td>El deudor pide 1 USDC a 7 días (borrowWithTerm)</td><td><a href="https://explorer.arc.io/tx/0x9a04915ddfdb16443128ac29480daf19df71768646a2cacff7996485243dbff3"><code>0x9a04…dbff3</code></a></td></tr>
+    <tr><td>9</td><td>El deudor repaga 1,016 USDC (repay)</td><td><a href="https://explorer.arc.io/tx/0xe1a5c2a6cbf2a957135d3fa405445a08674bf28d85082b10192c43b34c6bb918"><code>0xe1a5…6bb918</code></a></td></tr>
+  </table></div>
+  <p>Lista completa de las 30 transacciones en <a href="https://github.com/fabian416/lendoor-arc/blob/main/deployments/arc-mainnet-5042/addresses-and-txs.json">deployments/arc-mainnet-5042/addresses-and-txs.json</a>.</p>
 </section>
 
 <section>

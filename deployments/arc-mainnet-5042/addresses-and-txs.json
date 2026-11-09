@@ -1,0 +1,67 @@
+{
+  "_chain": "Arc mainnet, chainId 5042, rpc https://rpc.mainnet.arc.io, explorer https://explorer.arc.io",
+  "_deployed": "2026-11-09, deployer 0x2200D34feF13071cC0acdb38D9C929e83966636A (disposable wallet, owner of the LoanManager); same Foundry scripts as testnet, rehearsed on a mainnet fork on 2026-10-25",
+  "_usdc": "0x3600000000000000000000000000000000000000 (native gas token with ERC-20 interface, 6 decimals)",
+  "vault": "0xF29C85A434Ec303789002E0710001589C313e132",
+  "loanManager": "0xa82A34E560FCdFE27988C68f877a92825D5f2D0E",
+  "loanManagerImpl": "0xD42D5A843fa60dB2eEA6dB6D645D593fCA1f6d5D",
+  "evc": "0x4D8218092EE4D292bfC6C980f9B68A86A9C4B1b5",
+  "integrations": {
+    "balanceTracker": "0x1f114076e5D807D328A6E14793D9e13Fc120c6DC",
+    "evc": "0x4D8218092EE4D292bfC6C980f9B68A86A9C4B1b5",
+    "permit2": "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+    "protocolConfig": "0x8066B7e5222c50953D631531b1a1941FdDcFC8Da",
+    "sequenceRegistry": "0xf5cd7aeB9C02f61Fe592044421b79FFae48dec81"
+  },
+  "implementation": {
+    "eVaultImplementation": "0x3B82A4702d00DA9503A2B4096B4C321433a9Ca86",
+    "modules": {
+      "balanceForwarder": "0x8e8e3c2A3D361534E0f0E6385B0bfabaCE48bb84",
+      "borrowing": "0xc87E1c224883C7834411Ca95Fc9fA8126D3f583f",
+      "governance": "0xEd69B5C0200c02adc1c6fC0799Ea0e566E5384d0",
+      "initialize": "0x1ab9043b4BDE80F0d05F47640202B2c2AA8E9B2a",
+      "liquidation": "0x7A9471665162c988DE868d220d5933483189536f",
+      "riskManagerUncollat": "0x0d41A71B7555e675f59bc41a97473b4696e09808",
+      "token": "0xB332311aE2f353C9Ee7Ae0d9630E1973Da8e33a7",
+      "vault": "0x9e05AE7211a514460610bdB007C594512aC0763E"
+    }
+  },
+  "factory": {
+    "eVaultFactory": "0xC33Ff5DF6af1Dcbd517475F4bF3f8BB1A0fA12B5"
+  },
+  "deploy_txs": {
+    "01_EthereumVaultConnector": "0x5e7eacad402e7788c16706158efc93f07029b403487322a6f69b3adddf69bea7",
+    "01_ProtocolConfig": "0xd1081bb49310ef01aefa19aa23e5248fcbe27d937ebd86bbf0fee5782bda6f63",
+    "01_SequenceRegistry": "0x5682cc307956ec17b53b038aefa51dd10f206910890783f66ea6b99e72975879",
+    "01_TrackingRewardStreams": "0x64d9a6ea168834e379f42c5070d68edcb5b071b679e19c2541f30e5d7ddb22c1",
+    "05_Initialize": "0x52ca8ad368c5eaa792b65d282be2ae90a2b963e9ab0238b40a8d65042516f3b0",
+    "05_Token": "0x03ee710fc363a7b6d57de511f7c1664c9df6448cd00a6acb04646ce3b5fece0d",
+    "05_Vault": "0x76e26f6ee2b677d5613791948102c3ed38d482eae23f4a404e68486b9a45fd69",
+    "05_Borrowing": "0xdd64bcf33710379e99b76e2c38443c3059e38923620b0f133ae5841dbd15d3a5",
+    "05_Liquidation": "0xba3221b5644fce14913ea40716b7a629a8ef77e94e3ed7c602e07606f3468045",
+    "05_RiskManagerUncollat": "0xbfde730b1b98c0547b24f1fef89593a88aee7cd561368150e1ff1ae0465178bf",
+    "05_BalanceForwarder": "0x29211505cf8da33e2518acf0ddcc0b04b66492d1d98f1b058977e3846c36f2aa",
+    "05_Governance": "0x5a0280ac5f5e37b31eddf094a0961fe3f8fe8461d01fd66ee1cefb728ae799dd",
+    "05_EVaultImplementation": "0xff46a430c988841837581e2d26a8cf9a329613e91d144fa58606b12f63baa727",
+    "06_GenericFactory": "0xaa8ff17d3d52d0a30606907b5996440212291a30c8706567303a7639d02281ac",
+    "06_setImplementation": "0xcf91f121ae5bcb79cef51d85157488970a3c69ec81db6a107418ab5462e105db",
+    "07_createProxy_EVault": "0xf42761302a383486761cd305473aafee5924af6b6788dd1cc92b6e4fc730bb78",
+    "LM_LoanManagerV3_impl": "0xfdf526309f3839b3536029647ee4a22f3a3d85dba8483c0943ce7c7ba85925ab",
+    "LM_ERC1967Proxy": "0x78ab5eb7c0689ab94423d0f7e095bf6a9a9e2cf9b5d67cd0870d8f0acc3ac119"
+  },
+  "_deploy_gas": "18 txs, 41,483,785 gas used in total",
+  "tx_hookConfig": "0x8af2d2530f2334155850637f4ead7c98a356f7e2da7b04f5767dd5d6258d549e",
+  "tx_setLoanManager": "0x50c3aa6026d707946a50daad94b22d520a4cb00676d0cb64870cb23ce06f453c",
+  "tx_setCreditLimitManager": "0x47111cbd8c20a0e9fa53263a7ce2be69fad622dcd2adb10dd7fe1d33e3ee2674",
+  "tx_setUserRisk": "0x93ff6977fc9f66b123ca4402616d8f780d2a6ad0b83df9b3e2c2b9a842a596ee",
+  "tx_setLoanOffer": "0x0dd9c0a67e4e4b2f89bb0da8011bd1f2af476352b8ddecb2f8277b30ae8341fc",
+  "_wire": "creditLimit(borrower 0xC5a129d00D44d5E9c0B81D7d07355A6Ca62a249f) = 5 USDC; loan offer 7 days, 160 bps",
+  "tx_fundBorrower": "0x209057933281e03cd2b679f92a9b315caac1ecaa51226f1b7ca221667c89ffe8",
+  "tx_approveDeposit": "0xb6f8be65ab7ff38a508b76502ca9631c04ef0ae34fd4df6c01214b1bd2625901",
+  "tx_deposit": "0xd35c10aee676c1031bacc788edd6178d74afbe10b4801b4bd91bace8b94a3820",
+  "tx_enableController": "0xafa64026bdd7670cad32b02caf9654c097f18b6286b848c6ae8c31a08510397d",
+  "tx_borrowWithTerm": "0x9a04915ddfdb16443128ac29480daf19df71768646a2cacff7996485243dbff3",
+  "tx_approveRepay": "0xbbc57ceb0016d6f2a433023553dba4007277e27a2274ffb1d8b6c407766894bf",
+  "tx_repay": "0xe1a5c2a6cbf2a957135d3fa405445a08674bf28d85082b10192c43b34c6bb918",
+  "_flow": "2026-11-09: 0.5 USDC to the test borrower, 5 USDC deposited, controller enabled, 1 USDC borrowed for 7 days at 160 bps, 1.016 USDC repaid. Vault after: totalAssets 5.016 USDC, cash 5.016, debtOf(borrower) 0, creditLimit 5. 30 txs in total (18 deploy + 5 wire + 7 flow), all successful."
+}
