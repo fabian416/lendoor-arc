@@ -90,6 +90,16 @@ still runs against testnet).
 
 ## Context off-Arc (production on Celo, read from the contracts)
 
-Nov 9, 2026 (lendoor.xyz/stats): 6,231 loans originated, 1,601 unique borrowers, 67,489 USDC of principal,
-4,442 USDC of interest, 8,458 USDC of total assets, 7.9x capital turnover. Updated numbers are always live at
-https://lendoor.xyz/stats.
+| Read from the Celo contracts | Sep 28 (program start) | Nov 9 (mainnet day) | Nov 23 |
+|---|---|---|---|
+| Loans originated | see note | 6,231 | **6,779** |
+| Unique borrowers | see note | 1,601 | **1,677** |
+| Principal originated (USDC) | see note | 67,489 | **75,892** |
+| Interest generated (USDC) | see note | 4,442 | **4,955** |
+| Total assets (USDC) | see note | 8,458 | **9,006** |
+| Capital turnover | see note | 7.9x | **8.4x** |
+
+Two weeks of the program's tail, Nov 9 to Nov 23: +548 loans, +76 new borrowers, +8,400 USDC originated,
++513 USDC of interest. Note: the Sep 28 column is not shown because lendoor.xyz/stats reads live values and we do
+not keep a snapshot of that day; the Oct 9 one-pager stated "more than 4,500 loans since December 2025".
+Updated numbers are always live at https://lendoor.xyz/stats.
